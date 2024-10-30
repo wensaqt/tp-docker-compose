@@ -1,12 +1,12 @@
-FROM node:14
+FROM node:18
 
 WORKDIR /webapp
 
-COPY ../webapp/package.json ./
-COPY ../webapp/package-lock.json ./
+COPY webapp/package.json ./
+COPY webapp/package-lock.json ./
 
 RUN npm install
 
-COPY ../webapp ./
+COPY webapp/ ./
 
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "dev"]

@@ -1,12 +1,12 @@
-FROM node:14
+FROM node:18
 
 WORKDIR /api
 
-COPY ../api/package.json ./
-COPY ../api/package-lock.json ./
+COPY api/package.json ./
+COPY api/package-lock.json ./
 
 RUN npm install
 
-COPY ../api ./
+COPY api/ ./
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]

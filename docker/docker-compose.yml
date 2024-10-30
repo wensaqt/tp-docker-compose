@@ -1,35 +1,37 @@
 services:
   webapp:
     build:
-      context: ./webapp
+      context: ..
+      dockerfile: ./docker/webapp.dockerfile
     ports:
       - "8080:8080"
+    env_file:
+      - ./webapp.env
+    networks:
+      - tp_docker_network
 
   api:
     build:
-      context: ./api
+      context: ..
+      dockerfile: ./docker/api.dockerfile
     ports:
       - "3000:3000"
-    environment:
-      - DATABASE_URL=postgres://user:password@db:5432/tp-docker-db
+    env_file:
+      - ./api.env
     depends_on:
       - db
     networks:
-      - api_network
+      - tp_docker_network
 
   db:
     image: postgres:latest
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: tp-docker-db
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
     networks:
-      - api_network
+      - tp_docker_network
 
   pgadmin:
     image: dpage/pgadmin4
@@ -41,10 +43,10 @@ services:
     depends_on:
       - db
     networks:
-      - api_network
+      - tp_docker_network
 
 volumes:
   postgres_data:
 
 networks:
-  api_network:
+  tp_docker_network:
